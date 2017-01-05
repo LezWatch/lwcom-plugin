@@ -152,16 +152,6 @@ function lez_commercials_metaboxes() {
 		'priority'			=> 'high',
 		'show_names'		=> true, // Show field names on the left
 	) );
-	// Field: Subject Focuses
-	$cmb_commercials->add_field( array(
-		'name'				=> 'Focus',
-		'desc'				=> 'Primary subject of the commercial',
-		'id'				=> $prefix . 'focus',
-		'taxonomy'			=> 'lez_focus', //Enter Taxonomy Slug
-		'type'				=> 'taxonomy_select',
-		'default' 			=> 'lesbian',
-		'show_option_none'	=> false,
-	) );
 	// Field: Year of Airing (if applicable)
 	$cmb_commercials->add_field( array(
 		'name'				=> 'Year Aired',
@@ -186,18 +176,6 @@ function lez_commercials_metaboxes() {
 	    'id'   				=> $prefix . 'lezploitation',
 	    'type'				=> 'checkbox'
 	) );
-}
-
-/*
- * Meta Box Adjustments
- *
- */
-
-// Remove Metaboxes we use elsewhere
-add_action( 'admin_menu', 'lez_remove_commercials_metaboxes');
-function lez_remove_commercials_metaboxes() {
-	remove_meta_box( 'tagsdiv-lez_focus', 'commercials', 'side' );
-	//remove_meta_box( 'tagsdiv-lez_company', 'commercials', 'side' );
 }
 
 

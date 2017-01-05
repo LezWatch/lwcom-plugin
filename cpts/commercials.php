@@ -162,17 +162,6 @@ function lez_commercials_metaboxes() {
 		'default' 			=> 'lesbian',
 		'show_option_none'	=> false,
 	) );
-	// Field: Subject Focuses
-	$cmb_commercials->add_field( array(
-		'name'				=> 'Company',
-		'desc'				=> 'Who is the video made by/for?',
-		'id'				=> $prefix . 'focus',
-		'taxonomy'			=> 'lez_company', //Enter Taxonomy Slug
-		'type'				=> 'taxonomy_select',
-		'default' 			=> 'lesbian',
-		'show_option_none'	=> false,
-	) );
-
 	// Field: Year of Airing (if applicable)
 	$cmb_commercials->add_field( array(
 		'name'				=> 'Year Aired',
@@ -208,7 +197,7 @@ function lez_commercials_metaboxes() {
 add_action( 'admin_menu', 'lez_remove_commercials_metaboxes');
 function lez_remove_commercials_metaboxes() {
 	remove_meta_box( 'tagsdiv-lez_focus', 'commercials', 'side' );
-	remove_meta_box( 'tagsdiv-lez_company', 'commercials', 'side' );
+	//remove_meta_box( 'tagsdiv-lez_company', 'commercials', 'side' );
 }
 
 

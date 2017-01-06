@@ -34,7 +34,7 @@ function lez_commercials_post_type() {
 		'label'					=> 'commercials',
 		'description'			=> 'Commercials',
 		'labels'				=> $labels,
-		'supports'				=> array( 'title', 'editor', 'thumbnail', 'genesis-cpt-archives-settings', 'genesis-seo', 'revisions' ),
+		'supports'				=> array( 'title', 'editor', 'thumbnail', 'revisions', 'post-formats' ),
 		'hierarchical'			=> false,
 		'public'				=> true,
 		'show_ui'				=> true,
@@ -125,6 +125,19 @@ function lez_create_commercials_taxonomies() {
 	register_taxonomy( 'lez_company', 'commercials', $args_company );
 }
 
+/* Post Formats
+ *
+ * Set the default to videos.
+ */
+add_filter( 'option_default_post_format', 'lez_default_post_format' );
+function lez_default_post_format( $format ) {
+    global $post_type;
+
+	if ( $post_type == 'commercials' ) $format = 'video';
+
+    return $format;
+}
+
 /*
  * Custom Meta Box section
  *
@@ -178,6 +191,19 @@ function lez_commercials_metaboxes() {
 	) );
 }
 
+/*
+ * Meta Box Adjustments
+ *
+ */
+
+// function to initiate metaboxes to remove
+add_action( 'init', 'lez_remove_meta_boxes_from_commercials');
+function lez_remove_meta_boxes_from_commercials() {
+	function the_meta_boxes_to_remove() {
+		remove_meta_box( 'formatdiv', 'commercials', 'side' ); // Hide Post Formats
+	}
+	add_action( 'admin_menu' , 'the_meta_boxes_to_remove' );
+}
 
 /*
  * AMP

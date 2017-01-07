@@ -126,7 +126,7 @@ function lez_create_commercials_taxonomies() {
 
 	// COUNTRY OF ORIGIN
 	$names_country = array(
-		'name'							=> 'country',
+		'name'							=> 'Country',
 		'singular_name'					=> 'Country of Origin',
 		'search_items'					=> 'Search Countries',
 		'popular_items'					=> 'Popular Countries',

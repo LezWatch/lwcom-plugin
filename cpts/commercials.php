@@ -118,7 +118,7 @@ function lez_create_commercials_taxonomies() {
 		'show_ui'				=> true,
 		'show_admin_column'		=> true,
 		'show_in_nav_menus'		=> true,
-		'show_in_quick_edit'	=> false,
+		'show_in_quick_edit'	=> true,
 		'show_tagcloud'			=> false,
 		'rewrite'				=> array( 'slug' => 'company' ),
 	);
@@ -150,7 +150,7 @@ function lez_create_commercials_taxonomies() {
 		'show_ui'				=> true,
 		'show_admin_column'		=> true,
 		'show_in_nav_menus'		=> true,
-		'show_in_quick_edit'	=> false,
+		'show_in_quick_edit'	=> true,
 		'show_tagcloud'			=> false,
 		'rewrite'				=> array( 'slug' => 'country' ),
 	);

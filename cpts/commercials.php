@@ -141,7 +141,7 @@ function lez_create_commercials_taxonomies() {
 		'add_or_remove_items'			=> 'Add or remove countries',
 		'choose_from_most_used'			=> 'Choose from the most used countries',
 		'not_found'						=> 'No countries found.',
-		'menu_name'						=> 'country',
+		'menu_name'						=> 'Country',
 	);
 	$args_country = array(
 		'hierarchical'			=> false,

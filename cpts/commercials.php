@@ -123,6 +123,38 @@ function lez_create_commercials_taxonomies() {
 		'rewrite'				=> array( 'slug' => 'company' ),
 	);
 	register_taxonomy( 'lez_company', 'commercials', $args_company );
+
+	// COUNTRY OF ORIGIN
+	$names_country = array(
+		'name'							=> 'country',
+		'singular_name'					=> 'Country of Origin',
+		'search_items'					=> 'Search Countries',
+		'popular_items'					=> 'Popular Countries',
+		'all_items'						=> 'All Countries',
+		'parent_item'					=> null,
+		'parent_item_colon'				=> null,
+		'edit_item'						=> 'Edit country',
+		'update_item'					=> 'Update country',
+		'add_new_item'					=> 'Add New country',
+		'new_item_name'					=> 'New country Name',
+		'separate_items_with_commas'	=> 'Separate countries with commas',
+		'add_or_remove_items'			=> 'Add or remove countries',
+		'choose_from_most_used'			=> 'Choose from the most used countries',
+		'not_found'						=> 'No countries found.',
+		'menu_name'						=> 'country',
+	);
+	$args_country = array(
+		'hierarchical'			=> false,
+		'labels'				=> $names_country,
+		'public'				=> true,
+		'show_ui'				=> true,
+		'show_admin_column'		=> true,
+		'show_in_nav_menus'		=> true,
+		'show_in_quick_edit'	=> false,
+		'show_tagcloud'			=> false,
+		'rewrite'				=> array( 'slug' => 'country' ),
+	);
+	register_taxonomy( 'lez_country', 'commercials', $args_country );
 }
 
 /* Post Formats

@@ -1,11 +1,9 @@
 <?php
 /*
-Plugin Name: Commercial CPT
-Plugin URI:  https://lezwatchcommercials.com
-Description: Custom Post Type for commercials on LWCOM
-Version: 1.0
-Author: Mika Epstein
-*/
+ * Custom Post Type for commercials on LWCOM
+ *
+ * @since 1.0
+ */
 
 
 /*
@@ -238,7 +236,7 @@ function lez_remove_meta_boxes_from_commercials() {
 }
 
 /*
- * AMP
+ * Add AMP Support
  */
 
 add_action( 'amp_init', 'lez_amp_add_commercials_cpt' );

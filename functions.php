@@ -1,9 +1,8 @@
 <?php
-
 /*
-Plugin Name: Base Functions
+Plugin Name: LezWatch Commercials
 Plugin URI:  https://lezwatchcommercials.com
-Description: This file calls all the children files, depending on what other
+Description: All the base functions for running LezWatch Commercials, which aren't dependant on the theme.
 Version: 1.0
 Author: Mika Epstein
 */

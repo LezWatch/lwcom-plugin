@@ -11,8 +11,8 @@
  *
  */
 
-add_action( 'init', 'lez_commercials_post_type', 0 );
-function lez_commercials_post_type() {
+add_action( 'init', 'lwcom_commercials_post_type', 0 );
+function lwcom_commercials_post_type() {
 	$labels = array(
 		'name'					=> 'Commercials',
 		'singular_name'			=> 'Commercial',
@@ -56,8 +56,8 @@ function lez_commercials_post_type() {
  * Custom Taxonomies
  *
  */
-add_action( 'init', 'lez_create_commercials_taxonomies', 0 );
-function lez_create_commercials_taxonomies() {
+add_action( 'init', 'lwcom_create_commercials_taxonomies', 0 );
+function lwcom_create_commercials_taxonomies() {
 
 	// FOCUS
 	$names_focus = array(
@@ -159,8 +159,8 @@ function lez_create_commercials_taxonomies() {
  *
  * Set the default to videos.
  */
-add_filter( 'option_default_post_format', 'lez_default_post_format' );
-function lez_default_post_format( $format ) {
+add_filter( 'option_default_post_format', 'lwcom_default_post_format' );
+function lwcom_default_post_format( $format ) {
     global $post_type;
 
 	if ( $post_type == 'commercials' ) $format = 'video';
@@ -174,8 +174,8 @@ function lez_default_post_format( $format ) {
  * This relies fully on CMB2.
  *
  */
-add_filter( 'cmb2_admin_init', 'lez_commercials_metaboxes' );
-function lez_commercials_metaboxes() {
+add_filter( 'cmb2_admin_init', 'lwcom_commercials_metaboxes' );
+function lwcom_commercials_metaboxes() {
 
 	// prefix for all custom fields
 	$prefix = 'lezcommercial_';
@@ -227,8 +227,8 @@ function lez_commercials_metaboxes() {
  */
 
 // function to initiate metaboxes to remove
-add_action( 'init', 'lez_remove_meta_boxes_from_commercials');
-function lez_remove_meta_boxes_from_commercials() {
+add_action( 'init', 'lwcom_remove_meta_boxes_from_commercials');
+function lwcom_remove_meta_boxes_from_commercials() {
 	function the_meta_boxes_to_remove() {
 		remove_meta_box( 'formatdiv', 'commercials', 'side' ); // Hide Post Formats
 	}
@@ -239,7 +239,36 @@ function lez_remove_meta_boxes_from_commercials() {
  * Add AMP Support
  */
 
-add_action( 'amp_init', 'lez_amp_add_commercials_cpt' );
-function lez_amp_add_commercials_cpt() {
+add_action( 'amp_init', 'lwcom_amp_add_commercials_cpt' );
+function lwcom_amp_add_commercials_cpt() {
     add_post_type_support( 'commercials', AMP_QUERY_VAR );
 }
+
+// Adding to Right Now
+add_action( 'dashboard_glance_items', 'lwcom_commercials_right_now' );
+
+function lwcom_commercials_right_now() {
+        	foreach ( array( 'commercials' ) as $post_type ) {
+        		$num_posts = wp_count_posts( $post_type );
+        		if ( $num_posts && $num_posts->publish ) {
+        			if ( 'commercials' == $post_type ) {
+        				$text = _n( '%s Commercial', '%s Commercials', $num_posts->publish );
+        			}
+        			$text = sprintf( $text, number_format_i18n( $num_posts->publish ) );
+        			printf( '<li class="%1$s-count"><a href="edit.php?post_type=%1$s">%2$s</a></li>', $post_type, $text );
+        		}
+        	}
+}
+
+// Styling Icons
+function lwcom_commercials_cpt_css() {
+   echo "<style type='text/css'>
+           #adminmenu #menu-posts-commercials div.wp-menu-image:before, #dashboard_right_now li.commercials-count a:before {
+                content: '\\f234';
+                margin-left: -1px;
+            }
+         </style>";
+
+}
+
+add_action('admin_head', 'lwtv_characters_cpt_css');

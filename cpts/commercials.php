@@ -271,4 +271,4 @@ function lwcom_commercials_cpt_css() {
 
 }
 
-add_action('admin_head', 'lwtv_characters_cpt_css');
+add_action('admin_head', 'lwcom_commercials_cpt_css');

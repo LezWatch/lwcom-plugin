@@ -19,7 +19,7 @@ class LWComm_CPT_Commercials {
 		add_action( 'init', array( $this, 'create_post_type' ), 0 );
 		add_action( 'init', array( $this, 'create_taxonomies' ), 0 );
 
-		add_action( 'cmb2_admin_init', array( $this, 'cmb2_metaboxes' ) );
+		add_action( 'cmb2_init', array( $this, 'cmb2_metaboxes' ) );
 
 		add_filter( 'option_default_post_format', array( $this, 'default_post_format' ) );
 		add_action( 'amp_init', array( $this, 'amp_init' ) );
@@ -61,10 +61,12 @@ class LWComm_CPT_Commercials {
 			'supports'            => array( 'title', 'editor', 'thumbnail', 'revisions', 'post-formats', 'genesis-cpt-archives-settings', 'genesis-seo' ),
 			'hierarchical'        => false,
 			'public'              => true,
+			'show_in_rest'        => true,
 			'show_ui'             => true,
 			'show_in_menu'        => true,
 			'show_in_nav_menus'   => true,
 			'show_in_admin_bar'   => true,
+			'rest_base'           => 'commercials',
 		 	'rewrite'             => array( 'slug' => 'commercial' ),
 			'menu_icon'           => 'dashicons-video-alt',
 			'menu_position'       => 7,
@@ -106,6 +108,7 @@ class LWComm_CPT_Commercials {
 			'hierarchical'          => false,
 			'labels'                => $names_focus,
 			'show_ui'               => true,
+			'show_in_rest'          => true,
 			'show_admin_column'     => true,
 			'update_count_callback' => '_update_post_term_count',
 			'query_var'             => true,
@@ -137,6 +140,7 @@ class LWComm_CPT_Commercials {
 			'labels'             => $names_company,
 			'public'             => true,
 			'show_ui'            => true,
+			'show_in_rest'       => true,
 			'show_admin_column'  => true,
 			'show_in_nav_menus'  => true,
 			'show_in_quick_edit' => true,
@@ -169,6 +173,7 @@ class LWComm_CPT_Commercials {
 			'labels'             => $names_country,
 			'public'             => true,
 			'show_ui'            => true,
+			'show_in_rest'       => true,
 			'show_admin_column'  => true,
 			'show_in_nav_menus'  => true,
 			'show_in_quick_edit' => true,
@@ -200,9 +205,10 @@ class LWComm_CPT_Commercials {
 		$cmb_commercials = new_cmb2_box( array(
 			'id'           => 'chars_metabox',
 			'title'        => 'Details',
-			'object_types' => array( 'commercials', ), // Post type
+			'object_types' => array( 'commercials' ), // Post type
 			'context'      => 'normal',
 			'priority'     => 'high',
+			'show_in_rest' => true,
 			'show_names'   => true, // Show field names on the left
 		) );
 		// Field: Year of Airing (if applicable)

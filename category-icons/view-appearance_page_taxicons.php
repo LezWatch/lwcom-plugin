@@ -18,7 +18,7 @@
 
 		<ul>
 			<li>Shortcode: <code>[taxonomy-icon tax=TAXONOMY]</code></li>
-			<li>Function: <code>LWComm_TaxonomyIcons::render_taxicon( 'TAXONOMY' );</code></li>
+			<li>Function: <code>do_shortcode( '[taxonomy-icon tax=TAXONOMY]' );</code></li>
 		</ul>
 
 		<form method="post">

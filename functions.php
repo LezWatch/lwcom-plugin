@@ -10,6 +10,9 @@ Author: Mika Epstein
 // Include CPTs
 include( 'cpts/commercials.php' );
 
+// Category Icons
+include( 'category-icons/category-icons.php' );
+
 // If Facet WP is active, call customizations
 if ( class_exists( 'FacetWP' ) ) {
 	require_once( 'plugins/facetwp.php' );

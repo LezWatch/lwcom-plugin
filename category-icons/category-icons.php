@@ -260,7 +260,7 @@ class LWComm_TaxonomyIcons {
 		// BAIL: If the setting is false or otherwise empty
 		if ( $filename == false || !$filename || empty( $filename ) ) return;
 
-		$svg      = wp_remote_get( LP_SYMBOLICONSCOLOR_PATH . $filename  . '.svg' )
+		$svg      = wp_remote_get( LP_SYMBOLICONSCOLOR_PATH . $filename  . '.svg' );
 		$icon     = $svg['body'];
 		$taxicon  = '<span role="img" class="symlclr-icon ' . $filename . '">' . $icon . '</span>';
 		}

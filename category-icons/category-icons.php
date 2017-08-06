@@ -43,7 +43,7 @@ class LWComm_TaxonomyIcons {
 
 		if ( $symbol_list ) {
 			while ( ( $line = fgets( $symbol_list ) ) !== false ) {
-				$this->symbolicon_array[[ $line . '.svg' ] = $line;
+				$this->symbolicon_array[ $line . '.svg' ] = $line;
 			}
 		}
 

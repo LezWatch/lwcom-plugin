@@ -39,6 +39,7 @@ class LWComm_TaxonomyIcons {
 		// Create the list of symbolicons
 		$this->symbolicon_array = array();
 
+		$upload_dir = wp_upload_dir();
 		$symbol_list = fopen( $upload_dir['basedir'] . '/symboliconscolor.txt', 'r' );
 
 		if ( $symbol_list ) {

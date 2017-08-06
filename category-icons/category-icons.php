@@ -263,7 +263,6 @@ class LWComm_TaxonomyIcons {
 		$svg      = wp_remote_get( LP_SYMBOLICONSCOLOR_PATH . $filename  . '.svg' );
 		$icon     = $svg['body'];
 		$taxicon  = '<span role="img" class="symlclr-icon ' . $filename . '">' . $icon . '</span>';
-		}
 
 		return $taxicon;
 	}

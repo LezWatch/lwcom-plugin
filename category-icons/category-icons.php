@@ -38,8 +38,13 @@ class LWComm_TaxonomyIcons {
 
 		// Create the list of symbolicons
 		$this->symbolicon_array = array();
-		foreach (glob( LP_SYMBOLICONSCOLOR_PATH . '/svg/*.svg' ) as $file) {
-			$this->symbolicon_array[ basename($file, '.svg') ] = basename($file);
+
+		$symbol_list = fopen( $upload_dir['basedir'] . '/symboliconscolor.txt', 'r' );
+
+		if ( $symbol_list ) {
+			while ( ( $line = fgets( $symbol_list ) ) !== false ) {
+				$this->symbolicon_array[[ $line . '.svg' ] = $line;
+			}
 		}
 
 		// Permissions needed to use this plugin
@@ -255,8 +260,10 @@ class LWComm_TaxonomyIcons {
 		// BAIL: If the setting is false or otherwise empty
 		if ( $filename == false || !$filename || empty( $filename ) ) return;
 
-		$icon     = file_get_contents( LP_SYMBOLICONSCOLOR_PATH . 'svg/' . $filename  . '.svg' );
+		$svg      = wp_remote_get( LP_SYMBOLICONSCOLOR_PATH . $filename  . '.svg' )
+		$icon     = $svg['body'];
 		$taxicon  = '<span role="img" class="symlclr-icon ' . $filename . '">' . $icon . '</span>';
+		}
 
 		return $taxicon;
 	}

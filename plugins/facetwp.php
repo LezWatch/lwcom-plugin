@@ -34,7 +34,7 @@ class LWComm_FacetWP_Addons {
 	}
 
 	function wp_enqueue_scripts() {
-		wp_enqueue_script( 'facetwp-pagination', plugins_url( 'js/pagination.js', __FILE__ ), array(), '1.0', true );
+		wp_enqueue_script( 'facetwp-pagination', plugins_url( 'facetwp/pagination.js', __FILE__ ), array(), '1.0', true );
 	}
 
 	/**

@@ -7,6 +7,8 @@ Version: 1.0
 Author: Mika Epstein
 */
 
+if ( file_exists( WP_CONTENT_DIR . '/library/functions.php' ) ) include_once( WP_CONTENT_DIR . '/library/functions.php' );
+
 // Include CPTs
 include( 'cpts/commercials.php' );
 

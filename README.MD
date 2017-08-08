@@ -13,11 +13,13 @@ The LezWatch Commercials plugin contains custom code for use with the site. Inst
 * Custom Taxonomies: Focuses, Company, Country of Origin
 * Custom Category Icons
 
-### FacetWP Support
+### Plugin Addons
 
-Filter Data before it's saved 
+Stored in `/plugins/`
 
-* Change 'on' to 'Yes' for Lezploitation post meta
+* CMB2: Custom CSS and SymboliconsColor Support
+* FacetWP: CMB2 Integration, filter Data before it's saved to rename values (On -> yes for lezpolitation), JS for FacetWP Pagination
+* WP Help: Custom CSS
 
 ## Deployment
 

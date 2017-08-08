@@ -7,6 +7,8 @@ Version: 1.0
 Author: Mika Epstein
 */
 
+// Include Library files
+// Most things will still work without this
 if ( file_exists( WP_CONTENT_DIR . '/library/functions.php' ) ) include_once( WP_CONTENT_DIR . '/library/functions.php' );
 
 // Include CPTs
@@ -19,3 +21,6 @@ include( 'category-icons/category-icons.php' );
 if ( class_exists( 'FacetWP' ) ) {
 	require_once( 'plugins/facetwp.php' );
 }
+
+// WP Help
+include( 'plugins/wp-help.php' );

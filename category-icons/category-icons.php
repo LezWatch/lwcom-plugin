@@ -259,10 +259,13 @@ class LWComm_TaxonomyIcons {
 		$filename = $this->get_setting( $taxonomy );
 
 		// BAIL: If the setting is false or otherwise empty
-		if ( $filename == false || !$filename || empty( $filename ) ) return;
+		if ( $filename == false || !$filename || empty( $filename ) || !defined( 'LP_SYMBOLICONS_PATH' ) ) return;
 
-		$svg      = wp_remote_get( LP_SYMBOLICONSCOLOR_PATH . $filename  . '.svg' );
-		$icon     = $svg['body'];
+		$icon = '';
+		if ( file_exists( LP_SYMBOLICONS_PATH . $filename . '.svg' ) ) {
+			$icon = file_get_contents( LP_SYMBOLICONS_PATH . $icon . '.svg' );
+		} 
+
 		$taxicon  = '<span role="img" class="symlclr-icon ' . $filename . '">' . $icon . '</span>';
 
 		return $taxicon;

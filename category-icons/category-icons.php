@@ -26,7 +26,7 @@ class LWComm_TaxonomyIcons {
 	 *
 	 * Actions to happen immediately
 	 */
-    public function __construct() {
+	public function __construct() {
 
 		add_action( 'admin_menu', array( $this, 'admin_menu' ) );
 		add_action( 'admin_init', array( $this, 'admin_init' ) );
@@ -39,13 +39,10 @@ class LWComm_TaxonomyIcons {
 		// Create the list of symbolicons
 		$this->symbolicon_array = array();
 
-		$upload_dir = wp_upload_dir();
-		$symbol_list = fopen( $upload_dir['basedir'] . '/symboliconscolor.txt', 'r' );
-
-		if ( $symbol_list ) {
-			while ( ( $line = fgets( $symbol_list ) ) !== false ) {
-				$this->symbolicon_array[ $line . '.svg' ] = $line;
-			}
+		foreach( glob( LP_SYMBOLICONSCOLOR_PATH . '*' ) as $filename ) {
+			$name = str_replace( LP_SYMBOLICONSCOLOR_PATH, '' , $filename );
+			$name = str_replace( '.svg', '', $name );
+			$this->symbolicon_array[ $name . '.svg' ] = $name;
 		}
 
 		// Permissions needed to use this plugin
@@ -59,7 +56,7 @@ class LWComm_TaxonomyIcons {
 				'display_name' => __ ( 'Taxonomy Icons', 'taxonomy-icons' ),
 			),
 		);
-    }
+	}
 
 	/**
 	 * admin_init function.
@@ -261,8 +258,7 @@ class LWComm_TaxonomyIcons {
 		// BAIL: If the setting is false or otherwise empty
 		if ( $filename == false || !$filename || empty( $filename ) ) return;
 
-		$icon    = file_get_contents( LP_SYMBOLICONSCOLOR_PATH . $filename  . '.svg' );
-		$taxicon = '<span role="img" class="symlclr-icon ' . $filename . '">' . $icon . '</span>';
+		$taxicon = '<span role="img" class="symlclr-icon ' . $filename . '"><svg width="100%" height="100%" data-src="' . LP_SYMBOLICONSCOLOR_URL . $filename . '.svg"/></svg></span>';
 
 		return $taxicon;
 	}

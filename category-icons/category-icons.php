@@ -4,7 +4,7 @@
  *
  * Create icons for catgeories and Custom Taxonomies.
  *
- * Version:    0.1.0
+ * Version:    0.1.1
  * Author:     Mika A. Epstein
  * Author URI: https://halfelf.org
  * License:    GPL-2.0+
@@ -258,7 +258,7 @@ class LWComm_TaxonomyIcons {
 		// BAIL: If the setting is false or otherwise empty
 		if ( $filename == false || !$filename || empty( $filename ) ) return;
 
-		$taxicon = '<span role="img" class="symlclr-icon ' . $filename . '"><svg width="100%" height="100%" data-src="' . LP_SYMBOLICONSCOLOR_URL . $filename . '.svg"/></svg></span>';
+		$taxicon = '<span role="img" class="symlclr-icon ' . $filename . '"><svg width="100%" height="100%" data-src="' . LP_SYMBOLICONSCOLOR_URL . $filename . '"/></svg></span>';
 
 		return $taxicon;
 	}

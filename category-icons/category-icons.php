@@ -195,7 +195,7 @@ class LWComm_TaxonomyIcons {
 	 */
 	public function handle_post_request() {
 
-		if ( ! wp_verify_nonce( $_POST['_wpnonce'], 'taxicons-save-settings' ) ) {
+		if ( isset( $_POST['_wpnonce'] ) && ! wp_verify_nonce( $_POST['_wpnonce'], 'taxicons-save-settings' ) ) {
 			die( 'Cheating, eh?' );
 		}
 
@@ -273,7 +273,7 @@ class LWComm_TaxonomyIcons {
 			return;
 		}
 
-		$taxicon = '<span role="img" class="symlclr-icon ' . LP_SYMBOLICONSCOLOR_URL . $filename . '">' . file_get_contents( $filename ) . '</span>';
+		$taxicon = '<span role="img" class="symlclr-icon ' . $filename . '">' . file_get_contents( LP_SYMBOLICONSCOLOR_URL . $filename ) . '</span>';
 
 		return $taxicon;
 	}

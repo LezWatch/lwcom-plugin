@@ -59,20 +59,20 @@
 
 					<td>
 						<?php
-						if ( $this->get_setting( $taxonomy ) && $this->get_setting( $taxonomy ) !== false ) {
-							echo lwcom_sanitized( $this->render_taxicon( $taxonomy ) );
+						if ( $this->get_setting( $this_tax ) && $this->get_setting( $this_tax ) !== false ) {
+							echo lwcom_sanitized( $this->render_taxicon( $this_tax ) );
 						}
 						?>
 
 					</td>
 
 					<td>
-						<select name="<?php echo lwcom_sanitized( $taxonomy ); ?>" class="taxonomy-icon">
+						<select name="<?php echo lwcom_sanitized( $this_tax ); ?>" class="taxonomy-icon">
 							<option value="">-- Select an Icon --</option>
 							<?php
 							foreach ( $this->symbolicon_array as $file => $name ) {
 								?>
-								<option value="<?php echo esc_attr( $file ); ?>" <?php echo $file === $this->get_setting( $taxonomy ) ? 'selected="selected"' : ''; ?>><?php echo esc_html( $name ); ?></option>
+								<option value="<?php echo esc_attr( $file ); ?>" <?php echo $file === $this->get_setting( $this_tax ) ? 'selected="selected"' : ''; ?>><?php echo esc_html( $name ); ?></option>
 								<?php
 							};
 							?>

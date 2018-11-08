@@ -12,7 +12,7 @@
  */
 
 // if this file is called directly abort
-if ( ! defined('WPINC' ) ) {
+if ( ! defined( 'WPINC' ) ) {
 	die;
 }
 
@@ -39,9 +39,9 @@ class LWComm_TaxonomyIcons {
 		// Create the list of symbolicons
 		$this->symbolicon_array = array();
 
-		foreach( glob( LP_SYMBOLICONSCOLOR_PATH . '*' ) as $filename ) {
-			$name = str_replace( LP_SYMBOLICONSCOLOR_PATH, '' , $filename );
-			$name = str_replace( '.svg', '', $name );
+		foreach ( glob( LP_SYMBOLICONSCOLOR_PATH . '*' ) as $filename ) {
+			$name                                     = str_replace( LP_SYMBOLICONSCOLOR_PATH, '', $filename );
+			$name                                     = str_replace( '.svg', '', $name );
 			$this->symbolicon_array[ $name . '.svg' ] = $name;
 		}
 
@@ -50,10 +50,10 @@ class LWComm_TaxonomyIcons {
 
 		// Menus and their titles
 		$this->plugin_menus = array(
-			'taxicons'    => array(
+			'taxicons' => array(
 				'slug'         => 'taxicons',
 				'submenu'      => 'themes.php',
-				'display_name' => __ ( 'Taxonomy Icons', 'taxonomy-icons' ),
+				'display_name' => 'Taxonomy Icons',
 			),
 		);
 	}
@@ -65,13 +65,17 @@ class LWComm_TaxonomyIcons {
 	 * @return void
 	 * @since 0.1.0
 	 */
-	function admin_init() {
+	public function admin_init() {
 		// Since we couldn't set it in _construct, we do it here
 		// Create a default (false) for all current taxonomies
-		$taxonomies = get_taxonomies( array( 'public' => true, '_builtin' => false ), 'names', 'and' );
+		$tax_array  = array(
+			'public'   => true,
+			'_builtin' => false,
+		);
+		$taxonomies = get_taxonomies( $tax_array, 'names', 'and' );
 		if ( $taxonomies && empty( $this->plugin_vars ) ) {
 			foreach ( $taxonomies as $taxonomy ) {
-				$this->plugin_vars[$taxonomy] = false;
+				$this->plugin_vars[ $taxonomy ] = false;
 			}
 		}
 	}
@@ -83,7 +87,7 @@ class LWComm_TaxonomyIcons {
 	 * @return void
 	 * @since 0.1.0
 	 */
-	function init() {
+	public function init() {
 		add_shortcode( 'taxonomy-icon', array( $this, 'shortcode' ) );
 	}
 
@@ -95,7 +99,7 @@ class LWComm_TaxonomyIcons {
 	 * @return settings array
 	 * @since 0.1.0
 	 */
-	function get_settings( $force = false) {
+	public function get_settings( $force = false ) {
 		if ( is_null( $this->settings ) || $force ) {
 			$this->settings = get_option( static::SETTINGS_KEY, $this->plugin_vars );
 		}
@@ -110,10 +114,10 @@ class LWComm_TaxonomyIcons {
 	 * @return key value (if available)
 	 * @since 0.1.0
 	 */
-	function get_setting( $key ) {
+	public function get_setting( $key ) {
 		$this->get_settings();
-		if ( isset( $this->settings[$key] ) ) {
-			return $this->settings[$key];
+		if ( isset( $this->settings[ $key ] ) ) {
+			return $this->settings[ $key ];
 		} else {
 			return false;
 		}
@@ -128,8 +132,8 @@ class LWComm_TaxonomyIcons {
 	 * @return void
 	 * @since 0.1.0
 	 */
-	function set_setting( $key, $value ) {
-		$this->settings[$key] = $value;
+	public function set_setting( $key, $value ) {
+		$this->settings[ $key ] = $value;
 	}
 
 	/**
@@ -139,7 +143,7 @@ class LWComm_TaxonomyIcons {
 	 * @return void
 	 * @since 0.1.0
 	 */
-	function save_settings() {
+	public function save_settings() {
 		update_option( static::SETTINGS_KEY, $this->settings );
 	}
 
@@ -150,7 +154,7 @@ class LWComm_TaxonomyIcons {
 	 * @return void
 	 * @since 0.1.0
 	 */
-	function admin_menu() {
+	public function admin_menu() {
 
 		foreach ( $this->plugin_menus as $menu ) {
 			$hook_suffixes[ $menu['slug'] ] = add_submenu_page(
@@ -164,7 +168,7 @@ class LWComm_TaxonomyIcons {
 		}
 
 		foreach ( $hook_suffixes as $hook_suffix ) {
-			add_action( 'load-' . $hook_suffix , array( $this, 'plugin_load' ) );
+			add_action( 'load-' . $hook_suffix, array( $this, 'plugin_load' ) );
 		}
 	}
 
@@ -176,10 +180,8 @@ class LWComm_TaxonomyIcons {
 	 * @return void
 	 * @since 0.1.0
 	 */
-	function plugin_load() {
-		//add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ) );
+	public function plugin_load() {
 		$this->handle_post_request();
-		//do_action( 'dho_dropzone_plugin_load', $this );
 	}
 
 	/**
@@ -191,17 +193,24 @@ class LWComm_TaxonomyIcons {
 	 * @return void
 	 * @since 0.1.0
 	 */
-	function handle_post_request() {
-		if ( empty( $_POST['action'] ) || 'save' != $_POST['action'] || !current_user_can( 'edit_posts' ) ) return;
+	public function handle_post_request() {
 
-		if ( !wp_verify_nonce( $_POST['_wpnonce'], 'taxicons-save-settings' ) ) die( 'Cheating, eh?' );
+		if ( ! wp_verify_nonce( $_POST['_wpnonce'], 'taxicons-save-settings' ) ) {
+			die( 'Cheating, eh?' );
+		}
+
+		if ( empty( $_POST['action'] ) || 'save' !== $_POST['action'] || ! current_user_can( 'edit_posts' ) ) {
+			return;
+		}
 
 		$this->get_settings();
 
 		$post_vars = $this->plugin_vars;
 		foreach ( $post_vars as $var => $default ) {
-			if ( !isset( $_POST[$var] ) ) continue;
-			$this->set_setting( $var, sanitize_text_field( $_POST[$var] ) );
+			if ( ! isset( $_POST[ $var ] ) ) {
+				continue;
+			}
+			$this->set_setting( $var, sanitize_text_field( $_POST[ $var ] ) );
 		}
 
 		$this->save_settings();
@@ -215,12 +224,14 @@ class LWComm_TaxonomyIcons {
 	 * @return void
 	 * @since 0.1.0
 	 */
-	function render_page() {
+	public function render_page() {
 		// Not sure why we'd ever end up here, but just in case
-		if ( empty( $_GET['page'] ) ) wp_die( 'Error, page cannot render.' );
+		if ( empty( $_GET['page'] ) ) {
+			wp_die( 'Error, page cannot render.' );
+		}
 
 		$screen = get_current_screen();
-		$view  = $screen->id;
+		$view   = $screen->id;
 
 		$this->render_view( $view );
 	}
@@ -234,7 +245,7 @@ class LWComm_TaxonomyIcons {
 	 * @return content based on the $view param
 	 * @since 0.1.0
 	 */
-	function render_view( $view, $args = array() ) {
+	public function render_view( $view, $args = array() ) {
 		extract( $args );
 		include 'view-' . $view . '.php';
 	}
@@ -251,14 +262,18 @@ class LWComm_TaxonomyIcons {
 	public function render_taxicon( $taxonomy ) {
 
 		// BAIL: If it's empty, or the taxonomy doesn't exist
-		if ( !$taxonomy || taxonomy_exists( $taxonomy ) == false ) return;
+		if ( ! $taxonomy || taxonomy_exists( $taxonomy ) === false ) {
+			return;
+		}
 
 		$filename = $this->get_setting( $taxonomy );
 
 		// BAIL: If the setting is false or otherwise empty
-		if ( $filename == false || !$filename || empty( $filename ) ) return;
+		if ( false === $filename || ! $filename || empty( $filename ) ) {
+			return;
+		}
 
-		$taxicon = '<span role="img" class="symlclr-icon ' . $filename . '"><svg width="100%" height="100%" data-src="' . LP_SYMBOLICONSCOLOR_URL . $filename . '"/></svg></span>';
+		$taxicon = '<span role="img" class="symlclr-icon ' . LP_SYMBOLICONSCOLOR_URL . $filename . '">' . file_get_contents( $filename ) . '</span>';
 
 		return $taxicon;
 	}
@@ -272,8 +287,8 @@ class LWComm_TaxonomyIcons {
 	 *        - tax: The taxonomy
 	 * @return SVG icon of awesomeness
 	 */
-	function shortcode( $atts ) {
-		return $this->render_taxicon( $atts[ 'tax' ] );
+	public function shortcode( $atts ) {
+		return $this->render_taxicon( $atts['tax'] );
 	}
 
 }

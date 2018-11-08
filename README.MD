@@ -19,7 +19,6 @@ Stored in `/plugins/`
 
 * CMB2: Custom CSS and SymboliconsColor Support
 * FacetWP: CMB2 Integration, filter Data before it's saved to rename values (On -> yes for lezpolitation), JS for FacetWP Pagination
-* WP Help: Custom CSS
 
 ## Deployment
 

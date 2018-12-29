@@ -77,9 +77,9 @@ new LWCom_Functions();
 /*
  * Add-Ons.
  */
-require_once 'cpts/commercials.php';
-require_once 'category-icons/category-icons.php';
-require_once 'plugins/facetwp.php';
+require_once 'cpts/_main.php';
+require_once 'plugins/_main.php';
+require_once 'features/_main.php';
 
 /**
  * This function does NOTHING, and if someone submitted it to the .org repo,

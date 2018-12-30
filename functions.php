@@ -74,13 +74,6 @@ class LWCom_Functions {
 }
 new LWCom_Functions();
 
-/*
- * Add-Ons.
- */
-require_once 'cpts/_main.php';
-require_once 'plugins/_main.php';
-require_once 'features/_main.php';
-
 /**
  * This function does NOTHING, and if someone submitted it to the .org repo,
  * I would slap them with a fish. The problem is there isn't a good way to
@@ -91,3 +84,10 @@ require_once 'features/_main.php';
 function lwcom_sanitized( $input ) {
 	return $input;
 }
+
+/*
+ * Add-Ons.
+ */
+require_once 'cpts/_main.php';
+require_once 'plugins/_main.php';
+require_once 'features/_main.php';

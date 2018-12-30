@@ -25,8 +25,8 @@ class LWComm_FacetWP_Addons {
 	 */
 	public function __construct() {
 
-		// Include extra Plugins
-		require_once dirname( __FILE__ ) . '/facetwp/commercials.php';
+		// Filter data before saving it
+		add_filter( 'facetwp_index_row', array( $this, 'facetwp_index_row' ), 10, 2 );
 
 		// Filter paged output
 		add_filter( 'facetwp_pager_html', array( $this, 'facetwp_pager_html' ), 10, 2 );
@@ -36,10 +36,67 @@ class LWComm_FacetWP_Addons {
 
 		// Reset Shortcode
 		add_shortcode( 'facetwp-reset', array( $this, 'reset_shortcode' ) );
+
+		if ( is_admin() ) {
+			// Don't output <!--fwp-loop--> on admin pages
+			add_filter( 'facetwp_is_main_query', function( $is_main_query, $query ) {
+				return false;
+			}, 10, 2 );
+		} else {
+			// DO output on pages where the main-query is set to true anyway. Asshols
+			add_filter( 'facetwp_is_main_query', array( $this, 'facetwp_is_main_query' ), 10, 2 );
+		}
 	}
 
 	public function wp_enqueue_scripts() {
 		wp_enqueue_script( 'facetwp-pagination', plugins_url( 'facetwp/pagination.js', __FILE__ ), array(), '1.0', true );
+	}
+
+	/**
+	 * Force Facet to show sometimes
+	 */
+	public function facetwp_is_main_query( $is_main_query, $query ) {
+		if ( isset( $query->query_vars['facetwp'] ) ) {
+			$is_main_query = true;
+		}
+		return $is_main_query;
+	}
+
+	/**
+	 * Filter Data before it's saved
+	 * Useful for serialized data but also capitalizing stars
+	 *
+	 * @since 1.1
+	 */
+	public function facetwp_index_row( $params, $class ) {
+
+		// Lezploitation
+		// Change ON to YES
+		if ( 'video_lezploit' === $params['facet_name'] ) {
+			$params['facet_value']         = ( 'on' === $params['facet_value'] ) ? 'yes' : 'no';
+			$params['facet_display_value'] = ( 'on' === $params['facet_display_value'] ) ? 'Yes' : 'No';
+			$class->insert( $params );
+			return false; // skip default indexing
+		}
+
+		// Some extra weird things...
+		// Becuase you can't store data for EMPTY fields so there's a 'fake'
+		// facet called 'all_the_missing' and we use it to pass through data
+		if ( 'all_the_missing' === $params['facet_name'] ) {
+			// If we do not love the show...
+			$lezploit = get_post_meta( $params['post_id'], 'lezcommercial_lezploitation', true );
+			if ( empty( $lezploit ) ) {
+				$params_lezploit                        = $params;
+				$params_lezploit['facet_name']          = 'video_lezploit';
+				$params_lezploit['facet_source']        = 'cf/lezcommercial_lezploitation';
+				$params_lezploit['facet_value']         = 'no';
+				$params_lezploit['facet_display_value'] = 'No';
+				$class->insert( $params_lezploit );
+			}
+			return false; // skip default indexing
+		}
+
+		return $params;
 	}
 
 	/**

@@ -12,8 +12,8 @@ class LWCOM_Commercial_Sidebar_Widget extends WP_Widget {
 	public function __construct() {
 		parent::__construct(
 			'LWCOM_Commercial_Sidebar_Widget', // Base ID
-			'LWCOM Commercial Single', // Name
-			array( 'description' => 'Shows the sidebar stuff for individual commercials.' ) // Args
+			'LWCOM Commercial Sidebar', // Name
+			array( 'description' => 'Shows the sidebar stuff for the commercials CPTs and Archives.' ) // Args
 		);
 	}
 
@@ -22,7 +22,6 @@ class LWCOM_Commercial_Sidebar_Widget extends WP_Widget {
 	 */
 
 	public function widget( $args, $instance ) {
-
 
 		// Get what's needed from $args array ($args populated with options from widget area register_sidebar function)
 		$before_widget = isset( $args['before_widget'] ) ? $args['before_widget'] : '';
@@ -37,32 +36,22 @@ class LWCOM_Commercial_Sidebar_Widget extends WP_Widget {
 		/** Output widget HTML BEGIN **/
 		echo wp_kses_post( $before_widget );
 
-		$queried_object = get_queried_object();
+		$queeried_object = get_queried_object();
+		$taxonomies      = array( 'lez_focus', 'lez_company', 'lez_country' );
 
-		if ( $queried_object ) {
-			$post_id = $queried_object->ID;
+		if ( $queeried_object ) {
+			$queer_id = $queeried_object->ID;
+
+			if ( is_singular( 'commercials' ) ) {
+				$content = self::single( $queer_id );
+			} elseif ( is_post_type_archive( 'commercials' ) || in_array( $queeried_object->taxonomy, $taxonomies ) ) {
+				$content = self::archive();
+			}
 		}
 
-		if ( 'on' === get_post_meta( $post_id, 'lezcommercial_lezploitation', true ) ) {
-			$warning = '<svg viewBox="0 0 30 30" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" fill="#c0392b" r="12"/><g fill="#fff"><path d="m11 6c0-.552.448-1 1-1 .552 0 1 .447 1 1v7c0 .552-.448 1-1 1h-.001c-.552 0-1-.447-1-1v-7z"/><circle cx="12" cy="17.5" r="1.5"/></g></svg>';
-			$callout = '<div class="callout callout-trigger"><div class="svg" aria-label="Warning Symbol" title="Warning Symbol">' . $warning . '</div><p><strong>WARNING!</strong></p></p>This commercial was created for the male gaze. It does contain queer females, but not in a good way.</p></div>';
-			echo $callout;
+		if ( isset( $content ) ) {
+			echo wp_kses_post( $content );
 		}
-
-		echo '<h3>Details</h3>';
-
-		$air_year = ' <strong>Year Aired:</strong> ' . get_post_meta( $post_id, 'lezcommercial_air_year', true );
-		$company  = get_the_term_list( $post_id, 'lez_company', ' <strong>Company:</strong> ', ', ' );
-		$focus    = get_the_term_list( $post_id, 'lez_focus', ' <strong>Subject(s):</strong> ', ', ' );
-		$country  = get_the_term_list( $post_id, 'lez_country', ' <strong>Country:</strong> ', ', ' );
-		$source   = ' <strong>Unknown Source</strong>';
-		if ( get_post_meta( $post_id, 'lezcommercial_video_url', true ) ) {
-			$source = ' <a href="' . esc_url( get_post_meta( $post_id, 'lezcommercial_video_url', true ) ) . '"><strong>Source</strong></a>';
-		}
-
-		$video_details = '<ul><li>' . $air_year . '</li><li>' . $source . '</li><li>' . $country . '</li><li>' . $company . '</li><li>' . $focus . '</li></ul>';
-
-		echo wp_kses_post( $video_details );
 
 		echo wp_kses_post( $after_widget );
 		/** Output widget HTML END **/
@@ -99,6 +88,57 @@ class LWCOM_Commercial_Sidebar_Widget extends WP_Widget {
 		</p>
 
 		<?php
+	}
+
+	/**
+	 * Output for archive posts
+	 * @return string  HTML
+	 */
+	public function archive() {
+		$title  = '<h2 class="widget-title">Sort Commercials</h2>';
+		$sorter = do_shortcode( '[facetwp sort="true"]' );
+		$facets = '<strong>Focus</strong>' . facetwp_display( 'facet', 'video_focus' ) . '<strong>Year Aired</strong>' . facetwp_display( 'facet', 'year' ) . '<strong>Company</strong>' . facetwp_display( 'facet', 'video_company' ) . '<strong>Country</strong>' . facetwp_display( 'facet', 'video_country' ) . '<strong>Exploitative</strong>' . facetwp_display( 'facet', 'video_lezploit' );
+		$reset  = do_shortcode( '[facetwp-reset]' );
+
+		$return = $title . $sorter . $facets . $reset;
+
+		return $return;
+	}
+
+	/**
+	 * Output for single posts
+	 * @param  int     $post_id [description]
+	 * @return string  HTML
+	 */
+	public function single( $post_id ) {
+
+		if ( '' === $post_id ) {
+			return;
+		}
+
+		$callout = '';
+		if ( 'on' === get_post_meta( $post_id, 'lezcommercial_lezploitation', true ) ) {
+			$warning = '<svg viewBox="0 0 30 30" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" fill="#c0392b" r="12"/><g fill="#fff"><path d="m11 6c0-.552.448-1 1-1 .552 0 1 .447 1 1v7c0 .552-.448 1-1 1h-.001c-.552 0-1-.447-1-1v-7z"/><circle cx="12" cy="17.5" r="1.5"/></g></svg>';
+			$callout = '<div class="callout callout-trigger"><div class="svg" aria-label="Warning Symbol" title="Warning Symbol">' . $warning . '</div><p><strong>WARNING!</strong></p></p>This commercial was created for the male gaze. It does contain queer females, but not in a good way.</p></div>';
+		}
+
+		$title = '<h2 class="widget-title">Details</h2>';
+
+		$air_year = ' <strong>Year Aired:</strong> ' . get_post_meta( $post_id, 'lezcommercial_air_year', true );
+		$company  = get_the_term_list( $post_id, 'lez_company', ' <strong>Company:</strong> ', ', ' );
+		$focus    = get_the_term_list( $post_id, 'lez_focus', ' <strong>Subject(s):</strong> ', ', ' );
+		$country  = get_the_term_list( $post_id, 'lez_country', ' <strong>Country:</strong> ', ', ' );
+		$source   = ' <strong>Unknown Source</strong>';
+		if ( get_post_meta( $post_id, 'lezcommercial_video_url', true ) ) {
+			$source = ' <a href="' . esc_url( get_post_meta( $post_id, 'lezcommercial_video_url', true ) ) . '"><strong>Source</strong></a>';
+		}
+
+		$video_details = '<ul><li>' . $air_year . '</li><li>' . $source . '</li><li>' . $country . '</li><li>' . $company . '</li><li>' . $focus . '</li></ul>';
+
+		$return = $callout . $title . $video_details;
+
+		return $return;
+
 	}
 
 }

@@ -1,9 +1,9 @@
 <?php
 /*
-Plugin Name: LezWatch Commercials
+Plugin Name: LezWatch.Commercials
 Plugin URI:  https://lezwatchcommercials.com
-Description: All the base functions for running LezWatch Commercials, which aren't dependant on the theme.
-Version: 1.2
+Description: All the base functions for running LezWatch.Commercials, which aren't dependant on the theme.
+Version: 1.2.1
 Author: Mika Epstein
 */
 
@@ -18,7 +18,7 @@ if ( file_exists( WP_CONTENT_DIR . '/library/functions.php' ) ) {
 /**
  * class LWCom_Functions
  *
- * The background functions for the site, independant of the theme.
+ * The background functions for the site, independent of the theme.
  */
 class LWCom_Functions {
 

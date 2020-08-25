@@ -20,6 +20,6 @@ Stored in `/plugins/`
 
 ## Deployment
 
-Pushes to the `master` branch are automatically deployed via Codeship to:
+Pushes to the `production` branch are automatically deployed via Codeship to:
 
 * lezwatchcommercials.com

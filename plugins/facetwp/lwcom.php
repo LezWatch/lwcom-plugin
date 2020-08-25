@@ -2,7 +2,6 @@
 /*
 Library: FacetWP Add Ons
 Description: Addons for FacetWP that make life worth living
-Version: 1.1.0
 Author: Mika Epstein
 */
 
@@ -76,7 +75,9 @@ class LWComm_FacetWP_Addons {
 			$params['facet_value']         = ( 'on' === $params['facet_value'] ) ? 'yes' : 'no';
 			$params['facet_display_value'] = ( 'on' === $params['facet_display_value'] ) ? 'Yes' : 'No';
 			$class->insert( $params );
-			return false; // skip default indexing
+			// skip default indexing
+			$params['facet_value'] = '';
+			return $params;
 		}
 
 		// Some extra weird things...
@@ -93,7 +94,9 @@ class LWComm_FacetWP_Addons {
 				$params_lezploit['facet_display_value'] = 'No';
 				$class->insert( $params_lezploit );
 			}
-			return false; // skip default indexing
+			// skip default indexing
+			$params['facet_value'] = '';
+			return $params;
 		}
 
 		return $params;

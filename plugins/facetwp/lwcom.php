@@ -42,7 +42,7 @@ class LWComm_FacetWP_Addons {
 				return false;
 			}, 10, 2 );
 		} else {
-			// DO output on pages where the main-query is set to true anyway. Asshols
+			// DO output on pages where the main-query is set to true anyway.
 			add_filter( 'facetwp_is_main_query', array( $this, 'facetwp_is_main_query' ), 10, 2 );
 		}
 	}
@@ -69,34 +69,37 @@ class LWComm_FacetWP_Addons {
 	 */
 	public function facetwp_index_row( $params, $class ) {
 
-		// Lezploitation
-		// Change ON to YES
-		if ( 'video_lezploit' === $params['facet_name'] ) {
-			$params['facet_value']         = ( 'on' === $params['facet_value'] ) ? 'yes' : 'no';
-			$params['facet_display_value'] = ( 'on' === $params['facet_display_value'] ) ? 'Yes' : 'No';
-			$class->insert( $params );
-			// skip default indexing
-			$params['facet_value'] = '';
-			return $params;
-		}
+		if ( 'commercials' === get_post_type( $params['post_id'] ) ) {
 
-		// Some extra weird things...
-		// Becuase you can't store data for EMPTY fields so there's a 'fake'
-		// facet called 'all_the_missing' and we use it to pass through data
-		if ( 'all_the_missing' === $params['facet_name'] ) {
-			// If we do not love the show...
-			$lezploit = get_post_meta( $params['post_id'], 'lezcommercial_lezploitation', true );
-			if ( empty( $lezploit ) ) {
-				$params_lezploit                        = $params;
-				$params_lezploit['facet_name']          = 'video_lezploit';
-				$params_lezploit['facet_source']        = 'cf/lezcommercial_lezploitation';
-				$params_lezploit['facet_value']         = 'no';
-				$params_lezploit['facet_display_value'] = 'No';
-				$class->insert( $params_lezploit );
+			// Lezploitation
+			// Change ON to YES
+			if ( 'video_lezploit' === $params['facet_name'] ) {
+				$params['facet_value']         = ( 'on' === $params['facet_value'] ) ? 'yes' : 'no';
+				$params['facet_display_value'] = ( 'on' === $params['facet_display_value'] ) ? 'Yes' : 'No';
+				$class->insert( $params );
+				// skip default indexing
+				$params['facet_value'] = '';
+				return $params;
 			}
-			// skip default indexing
-			$params['facet_value'] = '';
-			return $params;
+
+			// Some extra weird things...
+			// Because you can't store data for EMPTY fields so there's a 'fake'
+			// facet called 'all_the_missing' and we use it to pass through data
+			if ( 'all_the_missing' === $params['facet_name'] ) {
+				// If we do not love the show...
+				$lezploit = get_post_meta( $params['post_id'], 'lezcommercial_lezploitation', true );
+				if ( empty( $lezploit ) ) {
+					$params_lezploit                        = $params;
+					$params_lezploit['facet_name']          = 'video_lezploit';
+					$params_lezploit['facet_source']        = 'cf/lezcommercial_lezploitation';
+					$params_lezploit['facet_value']         = 'no';
+					$params_lezploit['facet_display_value'] = 'No';
+					$class->insert( $params_lezploit );
+				}
+				// skip default indexing
+				$params['facet_value'] = '';
+				return $params;
+			}
 		}
 
 		return $params;

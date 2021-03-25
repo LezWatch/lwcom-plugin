@@ -90,4 +90,3 @@ function lwcom_sanitized( $input ) {
  */
 require_once 'cpts/_main.php';
 require_once 'plugins/_main.php';
-require_once 'features/_main.php';

@@ -15,13 +15,9 @@ class LWComm_CPT_Commercials {
 	 */
 	public function __construct() {
 		add_action( 'admin_init', array( $this, 'admin_init' ) );
-
 		add_action( 'init', array( $this, 'create_post_type' ), 0 );
 		add_action( 'init', array( $this, 'create_taxonomies' ), 0 );
-
 		add_action( 'cmb2_init', array( $this, 'cmb2_metaboxes' ) );
-
-		add_filter( 'option_default_post_format', array( $this, 'default_post_format' ) );
 		add_action( 'amp_init', array( $this, 'amp_init' ) );
 		add_action( 'admin_menu', array( $this, 'remove_metaboxes' ) );
 	}
@@ -197,7 +193,7 @@ class LWComm_CPT_Commercials {
 		// This is just an array of all years from 1930 on (1930 being the year TV dramas started)
 		// This could probably be smaller since I doubt we had lesbian ads before 1970
 		$year_array = array();
-		foreach ( range( date( 'Y' ), '1930' ) as $x ) {
+		foreach ( range( gmdate( 'Y' ), '1930' ) as $x ) {
 			$year_array[ $x ] = $x;
 		}
 
@@ -245,18 +241,6 @@ class LWComm_CPT_Commercials {
 		);
 	}
 
-	/* Post Formats
-	 *
-	 * Set the default to videos.
-	 */
-	public function default_post_format( $format ) {
-		global $post_type;
-		if ( 'commercials' === $post_type ) {
-			$format = 'video';
-		}
-		return $format;
-	}
-
 	/*
 	 * Add AMP Support
 	 */
@@ -279,8 +263,8 @@ class LWComm_CPT_Commercials {
 			#adminmenu #menu-posts-commercials div.wp-menu-image:before, #dashboard_right_now li.commercials-count a:before {
 					content: '\\f234';
 					margin-left: -1px;
-				}
-			 </style>";
+			}
+			</style>";
 	}
 
 	/*
@@ -291,11 +275,11 @@ class LWComm_CPT_Commercials {
 			$num_posts = wp_count_posts( $post_type );
 			if ( $num_posts && $num_posts->publish ) {
 				if ( 'commercials' === $post_type ) {
-					// Translators: Number of commercials
+					// translators: %s is number of commercials
 					$text = _n( '%s Commercial', '%s Commercials', $num_posts->publish );
 				}
 				$text = sprintf( $text, number_format_i18n( $num_posts->publish ) );
-				printf( '<li class="%1$s-count"><a href="edit.php?post_type=%1$s">%2$s</a></li>', lwcom_sanitized( $post_type ), lwcom_sanitized( $text ) );
+				printf( '<li class="%1$s-count"><a href="edit.php?post_type=%1$s">%2$s</a></li>', esc_attr( $post_type ), esc_html( $text ) );
 			}
 		}
 	}

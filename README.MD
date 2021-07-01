@@ -16,12 +16,10 @@ The LezWatch Commercials plugin contains custom code for use with the site. Inst
 
 Stored in `/plugins/`
 
-* CMB2: Custom CSS and SymboliconsColor Support
 * FacetWP: CMB2 Integration, filter Data before it's saved to rename values (On -> yes for lezpolitation), JS for FacetWP Pagination
-* WP Help: Custom CSS
 
 ## Deployment
 
-Pushes to the `master` branch are automatically deployed via Codeship to:
+Pushes to the `production` branch are automatically deployed via Codeship to:
 
 * lezwatchcommercials.com

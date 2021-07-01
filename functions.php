@@ -1,9 +1,9 @@
 <?php
 /*
-Plugin Name: LezWatch Commercials
+Plugin Name: LezWatch.Commercials
 Plugin URI:  https://lezwatchcommercials.com
-Description: All the base functions for running LezWatch Commercials, which aren't dependant on the theme.
-Version: 1.0
+Description: All the base functions for running LezWatch.Commercials, which aren't dependant on the theme.
+Version: 1.2.1
 Author: Mika Epstein
 */
 

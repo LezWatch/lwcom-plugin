@@ -11,7 +11,6 @@ The LezWatch Commercials plugin contains custom code for use with the site. Inst
 * CMB2 support for CPTs and Taxonomies
 * Custom Post Type: Commercials
 * Custom Taxonomies: Focuses, Company, Country of Origin
-* Custom Category Icons
 
 ### Plugin Addons
 

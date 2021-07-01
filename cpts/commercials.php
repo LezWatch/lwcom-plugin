@@ -15,22 +15,18 @@ class LWComm_CPT_Commercials {
 	 */
 	public function __construct() {
 		add_action( 'admin_init', array( $this, 'admin_init' ) );
-
 		add_action( 'init', array( $this, 'create_post_type' ), 0 );
 		add_action( 'init', array( $this, 'create_taxonomies' ), 0 );
-
 		add_action( 'cmb2_init', array( $this, 'cmb2_metaboxes' ) );
-
-		add_filter( 'option_default_post_format', array( $this, 'default_post_format' ) );
 		add_action( 'amp_init', array( $this, 'amp_init' ) );
-		add_action( 'admin_menu', array( $this,'remove_metaboxes' ) );
+		add_action( 'admin_menu', array( $this, 'remove_metaboxes' ) );
 	}
 
 	/**
 	 * Admin Init
 	 */
 	public function admin_init() {
-		add_action( 'admin_head', array($this, 'admin_css') );
+		add_action( 'admin_head', array( $this, 'admin_css' ) );
 		add_action( 'dashboard_glance_items', array( $this, 'dashboard_glance_items' ) );
 	}
 
@@ -54,7 +50,7 @@ class LWComm_CPT_Commercials {
 			'not_found'          => 'No commercials found',
 			'not_found_in_trash' => 'No commercials in the Trash',
 		);
-		$args = array(
+		$args   = array(
 			'label'               => 'commercials',
 			'description'         => 'Commercials',
 			'labels'              => $labels,
@@ -67,7 +63,7 @@ class LWComm_CPT_Commercials {
 			'show_in_nav_menus'   => true,
 			'show_in_admin_bar'   => true,
 			'rest_base'           => 'commercials',
-		 	'rewrite'             => array( 'slug' => 'commercial' ),
+			'rewrite'             => array( 'slug' => 'commercial' ),
 			'menu_icon'           => 'dashicons-video-alt',
 			'menu_position'       => 7,
 			'can_export'          => true,
@@ -98,10 +94,10 @@ class LWComm_CPT_Commercials {
 			'add_new_item'               => 'Add New Focus',
 			'new_item_name'              => 'New Focus Name',
 			'separate_items_with_commas' => 'Separate Focuses with commas',
-			'add_or_remove_items'        => 'Add or remove Focuses' ,
-			'choose_from_most_used'      => 'Choose from the most used Focuses' ,
-			'not_found'                  => 'No Focuses found.' ,
-			'menu_name'                  => 'Focuses' ,
+			'add_or_remove_items'        => 'Add or remove Focuses',
+			'choose_from_most_used'      => 'Choose from the most used Focuses',
+			'not_found'                  => 'No Focuses found.',
+			'menu_name'                  => 'Focuses',
 		);
 		//parameters for the new taxonomy
 		$args_focus = array(
@@ -135,7 +131,7 @@ class LWComm_CPT_Commercials {
 			'not_found'                  => 'No companies found.',
 			'menu_name'                  => 'Company',
 		);
-		$args_company = array(
+		$args_company  = array(
 			'hierarchical'       => false,
 			'labels'             => $names_company,
 			'public'             => true,
@@ -151,7 +147,7 @@ class LWComm_CPT_Commercials {
 
 		// COUNTRY OF ORIGIN
 		$names_country = array(
-			'name'            => 'Country',
+			'name'                       => 'Country',
 			'singular_name'              => 'Country of Origin',
 			'search_items'               => 'Search Countries',
 			'popular_items'              => 'Popular Countries',
@@ -168,7 +164,7 @@ class LWComm_CPT_Commercials {
 			'not_found'                  => 'No countries found.',
 			'menu_name'                  => 'Country',
 		);
-		$args_country = array(
+		$args_country  = array(
 			'hierarchical'       => false,
 			'labels'             => $names_country,
 			'public'             => true,
@@ -189,7 +185,7 @@ class LWComm_CPT_Commercials {
 	 * This relies fully on CMB2.
 	 *
 	 */
-	function cmb2_metaboxes() {
+	public function cmb2_metaboxes() {
 
 		// prefix for all custom fields
 		$prefix = 'lezcommercial_';
@@ -197,54 +193,52 @@ class LWComm_CPT_Commercials {
 		// This is just an array of all years from 1930 on (1930 being the year TV dramas started)
 		// This could probably be smaller since I doubt we had lesbian ads before 1970
 		$year_array = array();
-		foreach ( range(date('Y'), '1930' ) as $x) {
-			$year_array[$x] = $x;
+		foreach ( range( gmdate( 'Y' ), '1930' ) as $x ) {
+			$year_array[ $x ] = $x;
 		}
 
 		// MetaBox Group: Commercial Details
-		$cmb_commercials = new_cmb2_box( array(
-			'id'           => 'chars_metabox',
-			'title'        => 'Details',
-			'object_types' => array( 'commercials' ), // Post type
-			'context'      => 'normal',
-			'priority'     => 'high',
-			'show_in_rest' => true,
-			'show_names'   => true, // Show field names on the left
-		) );
+		$cmb_commercials = new_cmb2_box(
+			array(
+				'id'           => 'chars_metabox',
+				'title'        => 'Details',
+				'object_types' => array( 'commercials' ), // Post type
+				'context'      => 'normal',
+				'priority'     => 'high',
+				'show_in_rest' => true,
+				'show_names'   => true, // Show field names on the left
+			)
+		);
 		// Field: Year of Airing (if applicable)
-		$cmb_commercials->add_field( array(
-			'name'             => 'Year Aired',
-			'desc'             => 'What year did the commercial first air.',
-			'id'               => $prefix .'air_year',
-			'type'             => 'select',
-			'show_option_none' => true,
-			'default'          => 'custom',
-			'options'          => $year_array,
-		) );
+		$cmb_commercials->add_field(
+			array(
+				'name'             => 'Year Aired',
+				'desc'             => 'What year did the commercial first air.',
+				'id'               => $prefix . 'air_year',
+				'type'             => 'select',
+				'show_option_none' => true,
+				'default'          => 'custom',
+				'options'          => $year_array,
+			)
+		);
 		// Field: Video URL
-		$cmb_commercials->add_field( array(
-			'name'      => 'Video URL',
-			'id'        => $prefix .'video_url',
-			'type'      => 'text_url',
-			'protocols' => array( 'http', 'https' ),
-		) );
+		$cmb_commercials->add_field(
+			array(
+				'name'      => 'Video URL',
+				'id'        => $prefix . 'video_url',
+				'type'      => 'text_url',
+				'protocols' => array( 'http', 'https' ),
+			)
+		);
 		// Field: Lezploitation
-		$cmb_commercials->add_field( array(
-			'name' => 'Lezploitation?',
-			'desc' => 'Is this one of those commercials made really for men?',
-			'id'   => $prefix . 'lezploitation',
-			'type' => 'checkbox'
-		) );
-	}
-
-	/* Post Formats
-	 *
-	 * Set the default to videos.
-	 */
-	function default_post_format( $format ) {
-		global $post_type;
-		if ( $post_type == 'commercials' ) $format = 'video';
-		return $format;
+		$cmb_commercials->add_field(
+			array(
+				'name' => 'Lezploitation?',
+				'desc' => 'Is this one of those commercials made really for men?',
+				'id'   => $prefix . 'lezploitation',
+				'type' => 'checkbox',
+			)
+		);
 	}
 
 	/*
@@ -264,13 +258,13 @@ class LWComm_CPT_Commercials {
 	/*
 	 * Style Admin CSS
 	 */
-	function admin_css() {
-	   echo "<style type='text/css'>
-			   #adminmenu #menu-posts-commercials div.wp-menu-image:before, #dashboard_right_now li.commercials-count a:before {
+	public function admin_css() {
+		echo "<style type='text/css'>
+			#adminmenu #menu-posts-commercials div.wp-menu-image:before, #dashboard_right_now li.commercials-count a:before {
 					content: '\\f234';
 					margin-left: -1px;
-				}
-			 </style>";
+			}
+			</style>";
 	}
 
 	/*
@@ -280,11 +274,12 @@ class LWComm_CPT_Commercials {
 		foreach ( array( 'commercials' ) as $post_type ) {
 			$num_posts = wp_count_posts( $post_type );
 			if ( $num_posts && $num_posts->publish ) {
-				if ( 'commercials' == $post_type ) {
+				if ( 'commercials' === $post_type ) {
+					// translators: %s is number of commercials
 					$text = _n( '%s Commercial', '%s Commercials', $num_posts->publish );
 				}
 				$text = sprintf( $text, number_format_i18n( $num_posts->publish ) );
-				printf( '<li class="%1$s-count"><a href="edit.php?post_type=%1$s">%2$s</a></li>', $post_type, $text );
+				printf( '<li class="%1$s-count"><a href="edit.php?post_type=%1$s">%2$s</a></li>', esc_attr( $post_type ), esc_html( $text ) );
 			}
 		}
 	}

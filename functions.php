@@ -9,18 +9,15 @@ Author: Mika Epstein
 
 // Include Library files
 // Most things will still work without this
-if ( file_exists( WP_CONTENT_DIR . '/library/functions.php' ) ) include_once( WP_CONTENT_DIR . '/library/functions.php' );
+if ( file_exists( WP_CONTENT_DIR . '/library/functions.php' ) ) {
+	require_once WP_CONTENT_DIR . '/library/functions.php';
+}
 
 // Include CPTs
-include( 'cpts/commercials.php' );
-
-// Category Icons
-include( 'category-icons/category-icons.php' );
+require_once 'cpts/commercials.php';
+require_once 'cpts/widgets.php';
 
 // If Facet WP is active, call customizations
 if ( class_exists( 'FacetWP' ) ) {
-	require_once( 'plugins/facetwp.php' );
+	require_once 'plugins/facetwp.php';
 }
-
-// WP Help
-include( 'plugins/wp-help.php' );

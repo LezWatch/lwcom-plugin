@@ -21,7 +21,7 @@ class LWComm_FacetWP_Addons {
 	public function __construct() {
 
 		// Include extra Plugins
-		require_once '/facetwp/commercials.php';
+		require_once 'facetwp/commercials.php';
 
 		// Filter paged output
 		add_filter( 'facetwp_pager_html', array( $this, 'facetwp_pager_html' ), 10, 2 );

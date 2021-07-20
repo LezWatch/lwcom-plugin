@@ -39,12 +39,14 @@ class LWCOM_Commercial extends WP_Widget {
 		$queried_object = get_queried_object();
 
 		// If there's a post queery...
-		if ( $queried_object ) {
+		if ( $queried_object && isset( $queried_object->ID ) ) {
 			$post_id    = $queried_object->ID;
 			$year_aired = get_post_meta( $post_id, 'lezcommercial_air_year', true );
 			$video_url  = get_post_meta( $post_id, 'lezcommercial_video_url', true );
 			$lezploit   = get_post_meta( $post_id, 'lezcommercial_lezploitation', true );
 		}
+
+		echo wp_kses_post( $before_title . $title . $after_title );
 
 		echo '<ul>';
 
